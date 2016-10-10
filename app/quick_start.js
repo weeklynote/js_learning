@@ -231,6 +231,19 @@ console.log('1 + 3 + 5 + ... + 99...' + sum);
 
 // do...while与Java类似
 
+// Map
+var m = new Map([['A', 99], ['B' , 80], ['C', 70]]);
+console.log(m.get('A'));
+m.set('D', 60);
+console.log(m.get('D'));
+console.log(m.has('E'));
+
+// Set
+var s = new Set();
+var s1 = new Set([1, 2, 3, 4]);
+s1.add(5);
+s1.delete(6);
+
 
 
 
