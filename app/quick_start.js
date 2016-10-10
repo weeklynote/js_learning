@@ -134,14 +134,36 @@ arr.join('-'); // 'A-B-C-1-2-3'
 
 
 // 对象,键都是字符串类型，值可以是任意数据类型。
+// 最后一个键值对不需要在末尾加,，如果加了，有的浏览器（如低版本的IE）将报错
+// 如果属性名包含特殊字符，就必须用''括起来
 var obj = {
     name:'hello',
     age:25,
     city:'beijing',
-    hasCar:false
+    hasCar:false,
+    'middle-school':'No.1 Middle School'
 };
 obj.name;
 obj.age;
+// 有特殊字符的属性访问必须用['XX']
+alert(obj['middle-school']);
+// 访问不存在的属性不报错，而是返回undefined
+alert(obj.hhh);
+obj.addr = 'sichuan';
+alert(obj.addr);
+delete obj.addr; // 删除addr属性
+delete obj['name'];
+alert('name value:' + obj.name);
+alert('addr value:' + obj.addr);
+delete obj.school; // 删除一个不存在的school属性也不会报错
+// 检测是否含有某个属性
+alert('name in obj ' +( 'name' in obj)); // false
+alert('city in obj ' + ('city' in obj)); // true
+// 如果in判断一个属性存在，这个属性不一定是obj的，它可能是obj继承得到的
+'toString' in obj; // true
+// 要判断一个属性是否是obj自身拥有的，而不是继承得到的，可以用hasOwnProperty()方法
+obj.hasOwnProperty('city'); // true
+obj.hasOwnProperty('toString'); // false
 
 // strict模式
 // JavaScript在设计之初，为了方便初学者学习，并不强制要求用var申明变量。这个设计错误带来了严重的后果：如果一个变量没有通过var申明就被使用，那么该变量就自动被申明为全局变量：
