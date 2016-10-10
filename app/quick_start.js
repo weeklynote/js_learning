@@ -244,6 +244,38 @@ var s1 = new Set([1, 2, 3, 4]);
 s1.add(5);
 s1.delete(6);
 
+// iterable,Array、Map和Set都属于iterable类型,iterable类型的集合可以通过新的for ... of循环来遍历
+for(var x of a){
+    console.log('iterator array...' + x);
+}
+for(var x of s1){
+    console.log('iterator set...' + x);
+}
+for(var x of m){
+    console.log('iterator map key...' + x[0] + ', value...' + x[1]);
+}
+// for...in与for...of的区别
+a.name = 'hkjahlaha';
+for(var x in a){
+    console.log('for...in iterator array...' + x);
+}
+for(var x of a){
+    console.log('for...of iterator array...' + x);
+}
+// for ... in循环将把name包括在内，但Array的length属性却不包括在内。
+// for ... of循环则完全修复了这些问题，它只循环集合本身的元素
+
+// forEach方法
+a.forEach(function(element, index, array){
+   console.log('array forEach iterator...' + element) ;
+});
+s1.forEach(function(element, sameElement, set){
+   console.log('set forEach iterator...' + element);
+});
+m.forEach(function(value, key, map){
+   console.log('Map forEach iterator...' + value);
+});
+
 
 
 
