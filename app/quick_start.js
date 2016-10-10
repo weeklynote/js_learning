@@ -20,7 +20,7 @@ num = Infinity;
 var name = '小明';
 var age = 20;
 var message = `你好, ${name}, 你今年${age}岁了!`;
-alert(message);
+console.log(message);
 
 var s = 'welcome';
 s.length;
@@ -29,7 +29,7 @@ s[1];
 s[8];// undefined 超出范围的索引不会报错，但一律返回undefined
 // 字符串是不可变的，如果对字符串的某个索引赋值，不会有任何错误，但是，也没有任何效果：
 var ss = 'Test';
-alert(ss); // s仍然为'Test'
+console.log(ss); // s仍然为'Test'
 
 s = 'Hello';
 s.toUpperCase();
@@ -68,6 +68,7 @@ arr[0];
 arr[1];
 arr[5];
 arr = new Array(1, 2, 3); // 出于代码的可读性，建议使用[]
+console.log(arr);
 arr = [1, 2, 3];
 arr.length; // 3
 arr.length = 6; // arr变为[1,2,3,undefined,undefined,undefined]
@@ -146,30 +147,53 @@ var obj = {
 obj.name;
 obj.age;
 // 有特殊字符的属性访问必须用['XX']
-alert(obj['middle-school']);
+console.log(obj['middle-school']);
 // 访问不存在的属性不报错，而是返回undefined
-alert(obj.hhh);
+console.log(obj.hhh);
 obj.addr = 'sichuan';
-alert(obj.addr);
+console.log(obj.addr);
 delete obj.addr; // 删除addr属性
 delete obj['name'];
-alert('name value:' + obj.name);
-alert('addr value:' + obj.addr);
+console.log('name value:' + obj.name);
+console.log('addr value:' + obj.addr);
 delete obj.school; // 删除一个不存在的school属性也不会报错
 // 检测是否含有某个属性
-alert('name in obj ' +( 'name' in obj)); // false
-alert('city in obj ' + ('city' in obj)); // true
+console.log('name in obj ' +( 'name' in obj)); // false
+console.log('city in obj ' + ('city' in obj)); // true
 // 如果in判断一个属性存在，这个属性不一定是obj的，它可能是obj继承得到的
 'toString' in obj; // true
 // 要判断一个属性是否是obj自身拥有的，而不是继承得到的，可以用hasOwnProperty()方法
-obj.hasOwnProperty('city'); // true
-obj.hasOwnProperty('toString'); // false
+console.log(obj.hasOwnProperty('city')); // true
+console.log(obj.hasOwnProperty('toString')); // false
 
 // strict模式
 // JavaScript在设计之初，为了方便初学者学习，并不强制要求用var申明变量。这个设计错误带来了严重的后果：如果一个变量没有通过var申明就被使用，那么该变量就自动被申明为全局变量：
 var i = 10; // i现在是全局变量
 // 在同一个页面的不同的JavaScript文件中，如果都不用var申明，恰好都使用了变量i，将造成变量i互相影响，产生难以调试的错误结果。
 // 使用var申明的变量则不是全局变量，它的范围被限制在该变量被申明的函数体内，同名变量在不同的函数体内互不冲突。
+
+// 条件判断
+var age = 14;
+if (age >= 18)
+    alert('adult');
+else
+    console.log('age < 18'); // 添加一行日志
+// JavaScript把null、undefined、0、NaN和空字符串''视为false，其他值一概视为true，因此上述代码条件判断的结果是true
+var height = parseFloat(prompt('请输入身高(m):'));
+var weight = parseFloat(prompt('请输入体重(kg):'));
+var bmi = weight / (height * height);
+console.log('Bmi...' + bmi);
+if(bmi < 18.5){
+    console.log('过轻...');
+}else if(bmi >= 18.5 && bmi < 25){
+    console.log('正常...');
+}else if(bmi >= 25 && bmi < 28){
+    console.log('过重...');
+}else if(bmi >= 28 && bmi < 32){
+    console.log('肥胖...');
+}else if(bmi >= 32){
+    console.log('严重肥胖...');
+}
 
 
 
