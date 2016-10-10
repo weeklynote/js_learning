@@ -179,8 +179,10 @@ if (age >= 18)
 else
     console.log('age < 18'); // 添加一行日志
 // JavaScript把null、undefined、0、NaN和空字符串''视为false，其他值一概视为true，因此上述代码条件判断的结果是true
-var height = parseFloat(prompt('请输入身高(m):'));
-var weight = parseFloat(prompt('请输入体重(kg):'));
+//var height = parseFloat(prompt('请输入身高(m):'));
+var height = 1.73;
+//var weight = parseFloat(prompt('请输入体重(kg):'));
+var weight = 70
 var bmi = weight / (height * height);
 console.log('Bmi...' + bmi);
 if(bmi < 18.5){
@@ -194,6 +196,42 @@ if(bmi < 18.5){
 }else if(bmi >= 32){
     console.log('严重肥胖...');
 }
+
+// for循环与Java类似
+var i;
+var sum = 1;
+for(i = 1; i < 10; i++){
+    sum = sum * i;
+}
+console.log('1 * 2 * 3 * ... * 10...' + sum);
+// for ... in,可以把对象的所有属性依次循环出来
+obj = {
+    name:'hahhahahaha',
+    age:34,
+    addr:'sichuan'
+};
+for(var key in obj){
+    console.log(key);
+}
+// 由于Array也是对象，而它的每个元素的索引被视为对象的属性，因此，for ... in循环可以直接循环出Array的索引：
+var a = ['A', 'B', 'C'];
+for (var i in a) {
+    console.log(i); // '0', '1', '2'
+    console.log(a[i]); // 'A', 'B', 'C'
+}
+
+// while与Java类似
+sum = 0;
+var n = 1;
+while(n < 100){
+    sum = sum + n;
+    n = n + 2;
+}
+console.log('1 + 3 + 5 + ... + 99...' + sum);
+
+// do...while与Java类似
+
+
 
 
 
