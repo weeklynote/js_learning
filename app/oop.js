@@ -70,3 +70,52 @@ function Cat(name) {
 Cat.prototype.say = function () {
     return 'Hello, ' + this.name + '!';
 };
+function BlueCat(name){
+    Cat.call(this, name);
+    // 调用Student构造函数，绑定this变量
+    this.color = 'blue';
+}
+// 原型链new PrimaryStudent() ----> PrimaryStudent.prototype ----> Object.prototype ----> null
+
+// 空函数
+function F() {}
+// 把F的原型指向Cat的原型
+F.prototype = Cat.prototype;
+// 把BlueCat的原型指向一个新的F对象，F对象的原型正好指向Cat的原型
+BlueCat.prototype = new F();
+// 将BlueCat原型的构造函数修复为BlueCat
+BlueCat.prototype.constructor = BlueCat;
+BlueCat.prototype.getColor = function (){
+  return this.color;
+};
+var little = new BlueCat('baby');
+console.log(little.name);
+console.log(little.color);
+// 验证原型
+console.log(little.__proto__ === BlueCat.prototype);
+console.log(little.__proto__.__proto__ == Cat.prototype);
+// 验证继承关系
+console.log(little instanceof Cat);
+console.log(little instanceof BlueCat);
+
+// 封装一下继承的方法来实现
+function inherits(Child, Parent){
+    var F = function (){};
+    F.prototype = Parent.prototype;
+    Child.prototype = new F();
+    Child.prototype.constructor = Child;
+}
+
+function BlackCat(name){
+    Cat.call(this, name);
+    this.price = 10000;
+}
+
+inherits(BlackCat, Cat);
+BlackCat.prototype.getPrice = function (){
+  return this.price;
+};
+var black = new BlackCat('black');
+console.log(black.name);
+console.log(black.getPrice());
+
