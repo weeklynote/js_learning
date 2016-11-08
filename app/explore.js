@@ -58,3 +58,96 @@ console.log(document.cookie);
  
  // history对象
  // JavaScript可以调用history对象的back()或forward ()，相当于用户点击了浏览器的“后退”或“前进”按钮(不推荐使用)
+
+  */
+ // 操作DOM
+ // 返回ID为'test'的节点：
+//var test = document.getElementById('test');
+
+// 先定位ID为'test-table'的节点，再返回其内部所有tr节点：
+//var trs = document.getElementById('test-table').getElementsByTagName('tr');
+
+// 先定位ID为'test-div'的节点，再返回其内部所有class包含red的节点：
+//var reds = document.getElementById('test-div').getElementsByClassName('red');
+
+// 获取节点test下的所有直属子节点:
+//var cs = test.children;
+
+// 获取节点test下第一个、最后一个子节点：
+//var first = test.firstElementChild;
+//var last = test.lastElementChild;
+//////////////////////////////////////////////////////
+ var js = document.getElementById("test-p");
+ console.log(js.innerHTML);
+ var arr = document.getElementsByClassName("c-red c-green")[0].getElementsByTagName("p");
+ for(i = 0; i < arr.length; i++){
+     console.log(arr[i].innerHTML);
+ }
+ var haskell = document.getElementsByClassName("c-green")[1].lastElementChild;
+ console.log(haskell.innerHTML);
+ /////////////////////////////////////////////////////
+ // 此外还可以使用querySelector()和querySelectorAll()
+ // 通过querySelector获取ID为q1的节点：
+//var q1 = document.querySelector('#q1');
+
+// 通过querySelectorAll获取q1节点内的符合条件的所有节点：
+//var ps = q1.querySelectorAll('div.highlighted > p');
+
+// 更新Dom
+var title = document.getElementById("title_id");
+title.innerHTML = "更新Dom";
+// title.innerHTML = 'ABC <span style="color:red">RED</span> XYZ';
+//title.innerText = '<script>alert("Hi_innerText")</script>';  // 不返回隐藏元素的文本
+//title.textContent = '<script>alert("Hi_textContent")</script>';  // 返回所有文本
+title.style.color = '#ffee00';
+title.style.fontSize = '20px';
+title.style.paddingTop = '2em';
+// 插入Dom
+// 如果这个DOM节点是空的，例如，<div></div>，那么，直接使用innerHTML = '<span>child</span>'就可以修改DOM节点的内容，相当于“插入”了新的DOM节点。
+// 如果这个DOM节点不是空的，那就不能这么做，因为innerHTML会直接替换掉原来的所有子节点。
+// 有两个办法可以插入新的节点。一个是使用appendChild，把一个子节点添加到父节点的最后一个子节点。
+/**
+<p id="js">JavaScript</p>
+<div id="list">
+    <p id="java">Java</p>
+    <p id="python">Python</p>
+    <p id="scheme">Scheme</p>
+</div>
+把<p id="js">JavaScript</p>添加到<div id="list">的最后一项：
+
+var
+    js = document.getElementById('js'),
+    list = document.getElementById('list');
+list.appendChild(js);
+*/
+var js = document.getElementById('js');
+var listt = document.getElementById('list');
+// 节点首先会从原先的位置删除，再插入到新的位置
+listt.appendChild(js);
+// 动态创建一个
+var haskell = document.createElement('p');
+haskell.id = 'haskell';
+haskell.innerText = 'E';
+// 在最后位置添加一个子节点
+list.appendChild(haskell);
+var
+    ref = document.getElementById('python'),
+    nodef = document.createElement('p');
+haskell.id = 'node_f';
+haskell.innerText = 'F';
+list.insertBefore(haskell, ref);
+// 循环一个父节点的所有子节点，可以通过迭代children属性
+var
+    i, c;
+for (i = 0; i < list.children.length; i++) {
+    c = list.children[i]; // 拿到第i个子节点
+}
+// 删除Dom
+var self = document.getElementById('to_be_removed');
+// 拿到父节点:
+var parent = self.parentElement;
+// 删除:
+var removed = parent.removeChild(self);
+// 遍历一个父节点的子节点并进行删除操作时，要注意，children属性是一个只读属性，并且它在子节点变化时会实时更新。
+
+// 操作表单
