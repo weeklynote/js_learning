@@ -665,13 +665,23 @@ document.writeln(unique);
      }
      return s;
      
- }).method('get_names', function (){
+ });
+ 
+ /**
+ 
+    .method('get_name', function (){
      return this.says() + " " + this.name + " " + this.says();
  });
+ 
+ */
+ Dog.prototype.get_name = function (){
+     return this.says() + " 2 " + this.name + " 2 " + this.says();
+ };
  var dog = new Dog('Giwawa');
  document.writeln(dog.says());
  document.writeln(dog.wow(5));
- document.writeln(dog.get_names());
+ // 这里调用的是Mammal的get_name方法
+ document.writeln(dog.get_name());
  
  
  
