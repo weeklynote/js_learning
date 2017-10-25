@@ -893,3 +893,52 @@ document.writeln(unique);
     一个持久性的对象不会入侵。访问一个持久性的对象时，除非有方法授权，否则攻击者不能访问对象的内部状态。
 
  */
+ 
+ /**
+ 
+    部件
+    
+    我们可以从一套部件中把对象组装出来。例如，我们可以构造一个给任何对象添加简单时间处理特性的函数。
+    它会给对象添加一个on方法、fire方法和一个私有的事件注册表对象，如下：
+ 
+ */
+ 
+ var eventuality = function (that){
+     var registry = {};
+     that.fire = function (event){
+        var array, func, handler, i, type = (typeof event === 'string' ? event : event.type);
+        if(registry.hasOwnProperty(type)){
+             array = registry[type];
+             for(int i = 0; i < array.length; i++){
+                 handler = array[i];
+                 // 每个处理程序包含一个方法和一组可选的参数
+                 // 如果该方法是一个字符串形式的名字，那么寻找该函数。
+                 func = handler.method;
+                 if(typeof func === 'string'){
+                     func = this[func];
+                 }
+                 func.apply(this, hand.parameters || [event]);
+             }
+        }
+        return this;
+     };
+     that.on = function (type, method, parameters){
+         var handler = {method : method,
+            parameters : parameters
+         };
+         if(registry.hasOwnProperty(type)){
+             registry[type].push(handler);
+         }else{
+             registry[type] = [handler];
+         }
+         return this;
+     };
+     return this;
+ };
+ 
+ /** 
+
+    可以在任何单独的对象上调用eventuality，授予它事件处理方法。
+    一个构造器函数可以从一套部件中把对象组装起来，JavaScript的弱类型在此处是一个巨大的优势，因为我们无需花费精力去了解对象在类型系统中的继承关系。
+
+ */
