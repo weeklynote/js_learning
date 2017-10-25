@@ -1008,4 +1008,164 @@ document.writeln(unique);
  myArray[1001] = true;
  document.writeln(myArray.length);
  
+ /**
+ 
+    []后置下标运算符把它所含的表达式转换成一个字符串，如果该表达式有toString方法，就使用该方法的值。这个字符串被用作属性名。如果这个字符串看起来
+    像一个大于等于这个数组当前的length且小于4294967295，那么这个数组的length就会被重新设置新的下标加1。
+    
+    你也可以直接设置length的值。设置更大的length不会给数组分配更多的空间。而把length设小将导致所有下标大于等于新的length的属性被删除。
+    
+ */
+ numbers.length = 3;
+ document.writeln(numbers);
+ 
+ /**
+ 
+    通过把下标指定为一个数组的当前length，可以附加一个新的元素到该数组的尾部：
+ 
+ */
+ 
+ numbers[numbers.length] = "4";
+ document.writeln(numbers);
+ /**
+ 
+    有时用push方法可以更方便地完成同样的事情。
+ 
+ */
+ numbers.push("5");
+ document.writeln(numbers);
+ 
+ /**
+ 
+    删除
+
+    由于Javascript的数组其实就是对象，所以delete运算符可以用来从数组中移除元素。
+    
+ */
+ delete numbers[4];
+ document.writeln(numbers);
+ /**
+ 
+    不幸的是，那样会在数组中留下一个空间。这是因为排在被删除元素之后的元素保留着它们最初的属性。而你通常想要的是递减后面每个元素的属性。
+    幸运的是，JavaScript数组有一个splice方法。他可以对数组进行处理，删除一些元素并将它们替换为其他的元素。第一个参数是数组中的序号，第二个参数是要删除的元素
+    个数。任何额外的参数会在序号那个点的位置被插入到数组中：
+ 
+ */
+ numbers.splice(3, 2);
+ document.writeln(numbers);
+ /**
+ 
+    需要注意的是被删除属性后面的每个属性必须移除，并且以一个新的键值重新插入，这对于大型数组来说可能效率不高。
+ 
+ */
+ /**
+ 
+    枚举
+    
+    因为Javascript的数组是对象，所以for in语句可以用来遍历一个数组的所有属性。遗憾的是，for in语句无法保证属性的顺序，而大多数要遍历数组的场合都期望按照阿拉伯数组顺序
+    产生元素。此外，从原型链中得到意外属性的问题依旧存在。
+    
+    此时可以使用常规的for语句来代替。
+ 
+ */
+ var f;
+ for(i = 0; i < numbers.length; i++){
+   document.writeln(numbers[i]);  
+ };
+ 
+ /**
+ 
+    容易混淆的地方
+    
+    在JavaScript中一个常见的错误就是在该使用数组的地方使用对象；在该使用对象的地方使用数组。其实规则很简单，当属性名是小而连续的整数时，
+    你应该使用数组；否则使用对象。
+    
+    Javascript本身对于数组和对象的区别是混乱的。typeof运算符报告数组的类型是‘object’，这没有任何意义。
+    
+    我们可以定义自己的is_array函数来弥补这个缺陷：
+ 
+ */
+ 
+ var is_array = function (value){
+   return value && typeof value === 'object' && value.constructor == Array;  
+ };
+ // 这种做法在识别不同的窗口或帧里构造的数组时会失败，有一个更好的方式去判断一个对象是否是数组。
+ var isArray = function (){
+     return Object.prototype.toString.apply(value) === '[object Array]';
+ };
+ 
+ /**
+ 
+    方法
+
+    JavaScript提供了一套数组可用的方法。这些方法是被储存在Array.prototype中的函数中。
+    
+    同理，可以对数组进行扩展。
+ 
+ */
+ 
+ Array.method('reduce', function (f, value){
+     var i;
+     for(i = 0; i < this.length; i++){
+         value = f(this[i], value);
+     }
+     return value;
+ });
+ 
+ /**
+ 
+    通过给Array.prototype扩充一个函数，每个数组都继承了这个方法。
+ 
+ */
+ 
+ var data = [4, 6, 8, 10];
+ var add = function (a, b){
+   return a + b;  
+ };
+ document.writeln(data.reduce(add, 0));
+ var mult = function (a, b){
+   return a * b;  
+ };
+ document.writeln(data.reduce(mult, 1));
+ 
+ /**
+ 
+    因为数组就是对象，所以我们可以直接给一个单独的数组添加方法：
+ 
+ */
+ data.total = function (){
+   return this.reduce(add, 0);  
+ };
+ data.push(100);
+ document.writeln(data.total());
+ 
+ /**
+ 
+    因为字符串‘total’不是整数，所以给数组增加一个‘total’属性不会改变length。
+ 
+ */
+ 
+ Array.dim = function (length, initial){
+   var a = [];
+    for(i = 0; i < length; i++){
+        a[i] = initial;
+    }
+    return a;
+ };
+ var dimTest = Array.dim(10, 11);
+ document.writeln(dimTest);
+ /**
+ 
+    JavaScript没有多维数组，但像大多数类C语言一样，它支持元素作为数组的数组。
+ 
+ */
+ var matrix = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+ ];
+ document.writeln(matrix[2][1]);
+ 
+ 
+ 
  
