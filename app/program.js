@@ -593,7 +593,7 @@ document.writeln(unique);
  
  /**
  
-    伪装
+    伪类
     
     不直接让对象从其他对象继承，反而插入了一个中间层，通过构造器函数产生对象。
     当一个函数对象被创建时，Function构造器产生的函数对象会运行类似这样的代码：
@@ -665,23 +665,231 @@ document.writeln(unique);
      }
      return s;
      
+ }).method('get_name', function (){
+     return this.says() + " " + this.name + " " + this.says();
  });
- 
+// TODO
+ var dog = new Dog('Giwawa');
+ document.writeln(dog.says());
+ document.writeln(dog.wow(5));
  /**
- 
+    使用
     .method('get_name', function (){
      return this.says() + " " + this.name + " " + this.says();
  });
  
  */
- Dog.prototype.get_name = function (){
+ // 调用Mammal的get_name方法
+ document.writeln(dog.get_name());
+ /**
+    使用
+     Dog.prototype.get_name = function (){
      return this.says() + " 2 " + this.name + " 2 " + this.says();
  };
- var dog = new Dog('Giwawa');
- document.writeln(dog.says());
- document.writeln(dog.wow(5));
- // 这里调用的是Mammal的get_name方法
+ */
+ // 调用Dog的get_name方法
  document.writeln(dog.get_name());
+ /**
  
+    "伪类"形式给不熟悉JavaScript的程序员提供便利，但是它隐藏了改语言的真实本质。借鉴类的标识法可能误导程序员去编写过于深入与复杂的层次结构。
+    许多复杂的类层次结构产生的原因就是静态类型检查的约束。
+    JavaScript完全摆脱了那些约束。
+    在基于类的语言中，类继承是代码重用的唯一方式。而JavaScript有更多且更好的选择。
  
+ */
  
+ /**
+ 
+    对象说明符
+    
+    有时候，构造器要接受一大串参数。这种情况下记住参数的顺序非常困难。
+    在这种情况下，如果我们在编写构造器时让它接受一个简单的对象说明符，可能会更加友好。
+    那个对象包含了将要构建的对象规格说明。
+ 
+ */
+ // 与其这样写：
+ /** var myObject = maker(f, l, m, c, s); */
+ // 不如这么写：
+ /** 
+
+    var myObject = maker({
+        first : f,
+        middle : m,
+        last : l,
+        state : s,
+        city : c
+    });
+
+ */
+ /**
+ 
+    现在参数可以按照任意顺序排列，如果构造器会聪明地使用默认值，一些参数可以忽略掉，并且代码也更容易阅读。
+    这种形式的写法可以和JSON格式的数据一起工作。
+ 
+ */
+ 
+ /** 
+
+    在一个纯粹的原型模式中，我们会摒弃类，转而专注于对象。
+    基于原型的继承相比基于类的继承在概念上更为简单：
+    
+    一个新对象可以继承一个旧对象的属性。
+
+ */
+ var myMammal = {
+     name : 'Herb the Mammal',
+     get_name : function (){
+           return this.name;
+     },
+     says : function (){
+         return this.saying || '';
+     }
+ };
+ // 一旦有了一个想要的对象，可以利用Object.create方法构造出更多的实例来。
+ var myPig = Object.create(myMammal);
+ myCat.name = "Hemrietta";
+ myCat.saying = "12345678";
+ myCat.purr = function (n){
+     var i, s = '';
+     for(i = 0; i < n; i++){
+         if(s){
+             s += '-'
+         }
+         s += "mypig";
+     }
+     return s;
+ };
+ myCat.get_name = function (){
+     return this.says() + " " + this.name + " " + this.says();
+ };
+ /**
+ 
+    这是一种差异化继承。可以利用这种特性来表示内部作用域继承外部作用域的表达上。
+ 
+ */
+ 
+ /** 
+
+    函数化
+    
+    到此为止，我们所使用的继承模式的一个弱点就是没法保护隐私。对象的所有属性都是可见的。
+    可以使用应用模块模式
+    
+    从构造一个生成对象的函数开始，包括四个步骤：
+    1.创建一个新对象。可以构造一个对象字面量，或者它可以和new前缀连用去调用一个构造器函数，或者可以使用Object.create方法去构造一个已经存在的对象的新实例。
+    或者调用任意一个会返回一个对象的函数。
+    2.有选择的定义私有实例变量和方法
+    3.给这个新对象扩充方法。这些方法有特权去访问参数，以及在第2步中通过var语句定义的变量。
+    4.返回那个新对象。
+
+ */
+ /** 
+ 
+    伪代码模板
+    
+    var constructor = function (spec, my){
+       var that, 其他的私有实例变量;
+       my = my || {};
+       把共享的变量和函数添加到my中
+       that = 一个新对象;
+       添加给that的特权方法
+       return that;
+    };
+    
+    spec对象包含构造器需要构造一个新实例的所有信息。spec的内容可能会被复制到私有变量中，或者被其他函数改变，或者方法可以在需要的时候访问spec的信息。
+    
+    my对象是一个为继承链中的构造器提供秘密共享的容器。my对象可以选择性的使用，如果没有传入一个my对象，会创建一个my对象。
+    
+    生命该对象私有的实例变量和方法。通过简单的声明变量就可以做到。构造器的变量和内部函数变成了该实例的私有成员。内部函数可以访问spec、my、that，以及其他私有变量。
+    
+    接下来给my对象添加共享的秘密成员，通过赋值语句来实现：
+    my.member = value;
+    
+    现在我们喉罩一个新对象并把它赋值给that。可以使用对象字面量，可以使用new运算符调用一个伪类构造器，可以在一个原型对象上使用Object.create方法，或者可以调用另一个函数化的构造器，传给它一个spec对象和my
+    对象。my对象允许其他的构造器分享我们放到my中的资料。其他构造器可能也会把自己可分享的秘密成员放进my对象里，以便我们的构造器可以利用它。
+    
+    接下来扩充that，加入组成该对象接口的特权方法。我们可以分配一个新的函数成为that的成员方法。或者把函数定义为私有方法，然后再把它们分配给that。
+    var methodical = function (){};
+    that.methodical = methodical;
+    
+    分两步去定义methodical的好处是，如果其他方法想要调用methodical，它们可以直接调用methodical而不是that.methodical()。如果该实例被破坏或篡改，甚至that.methodical被替换掉了，调用methodical的方法同样会继续工作，因为它们私有的methodical不受该实例被修改的影响。
+    
+    最后，返回that。
+    
+    接下来应用这个模式，此处不需要my，但会使用spec对象。
+ 
+ */
+ 
+ var mammalF = function (spec){
+     var that = {};
+     that.get_name = function (){
+         return spec.name;
+     }
+     that.says = function (){
+         return spec.saying || "default mammalF says";
+     }
+     return that;
+ }
+ var fMammal = mammalF({name : "Herbbbbbb"});
+ document.writeln(fMammal.get_name());
+ document.writeln(fMammal.says());
+ /**
+ 
+    在伪类模式里，构造器函数Cat不得不重复构造mammalF已经完成的工作。在函数化 模式中就不再需要了，因为构造器Cat将会调用构造器mammalF，让mammalF去做对象创建中的大部分工作，所以Cat只需要关注自身的差异即可。
+ 
+ */
+ var catF = function (spec){
+     spec.saying = spec.saying || 'mwow';
+     var that = mammalF(spec);
+     that.purr = function (n){
+         var i, s = '';
+         for(i = 0; i < n; i++){
+             if(s){
+                 s += "-";
+             }
+             s += "r";
+         }
+         return s;
+     };
+     that.get_name = function (){
+       return that.says() + "-" + spec.name + "-" + that.says();  
+     };
+     return that;
+ };
+ var fCat = catF({name : 'Heriettatttttt'});
+ document.writeln(fCat.get_name());
+ document.writeln(fCat.purr(4));
+ /** 
+
+    函数化模式给我们提供了处理父类方法的方法。我们会构造一个superior方法，它取得一个方法名并返回调用那个方法的函数。
+    该函数会调用原来的方法，尽管属性已经变化了。
+
+ */
+ 
+ Object.method('superior', function (name){
+     var that = this;
+     var method = that[name];
+     return function(){
+         return method.apply(that, arguments);
+     };
+ });
+ 
+ var coolCat = function (spec){
+   var that = catF(spec);
+   var super_get_name = that.superior('get_name');
+   that.get_name = function (){
+       return "like " + super_get_name() + " baby";
+   };
+   return that;
+ };
+ var myCoolCat = coolCat({name : "Bix"});
+ document.writeln(myCoolCat.get_name());
+ /** 
+
+    函数化模式有很大的灵活性。它相比伪类模式不仅带来的工作更少，还让我们得到更多的封装和信息隐藏，以及访问父类方法的能力。
+    如果对象的所有状态都是私有的，那么该对象就成为一个"防伪"对象。该对象的属性可以被替换或删除，但该对象的完整性不会受到损害。
+    如果我们用函数化的模式创建一个对象，并且该对象的所有方法都不使用this或that，那么该对象就是持久性的。
+    一个持久性对象就是一个简单功能函数的集合。
+    一个持久性的对象不会入侵。访问一个持久性的对象时，除非有方法授权，否则攻击者不能访问对象的内部状态。
+
+ */
