@@ -909,7 +909,7 @@ document.writeln(unique);
         var array, func, handler, i, type = (typeof event === 'string' ? event : event.type);
         if(registry.hasOwnProperty(type)){
              array = registry[type];
-             for(int i = 0; i < array.length; i++){
+             for(i = 0; i < array.length; i++){
                  handler = array[i];
                  // 每个处理程序包含一个方法和一组可选的参数
                  // 如果该方法是一个字符串形式的名字，那么寻找该函数。
@@ -942,3 +942,70 @@ document.writeln(unique);
     一个构造器函数可以从一套部件中把对象组装起来，JavaScript的弱类型在此处是一个巨大的优势，因为我们无需花费精力去了解对象在类型系统中的继承关系。
 
  */
+ 
+ /**  
+
+    数组
+    
+    JavaScript中的数组是一种类数组特性的对象。它把数组的下标转换成字符串，用其作为属性。它明显比一个真正的数组慢，但它使用起来更方便。
+
+ */
+ 
+ /** 
+
+    数组字面量
+    
+    数组字面量提供了一种非常方便地创建新数组的表示法。
+    数组字面量允许出现在任何表达式可以出现的地方。数组的第一个值将获取属性名为‘0’，第二个值将获取属性名‘1’，依次类推。
+
+ */
+ 
+ var empty = [];
+ var numbers = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "zero"];
+ document.writeln(empty[1])
+ document.writeln(numbers[1]);
+ document.writeln(empty.length);
+ document.writeln(numbers.length);
+ 
+ // 对象字面量
+ var number_object = {
+     '0' : "zero",
+     '1' : "one",
+     '2' : "two",
+     '3' : "three",
+     "4" : "four",
+     '5' : "five",
+     '6' : 'six',
+     '7' : "seven",
+     '8' : "eight",
+     '9' : 'nine'
+ };
+ /**
+ 
+    numbers和number_object都是包含10个属性的对象，并且属性有相同的名字和值。
+    但是numbers继承自Array.prototype，而number_object继承自Object.prototype，所以numbers继承了大量有用的方法。同时numbers还存在一个length属性，而number_object没有。
+    
+    在大多数语言中，一个数组中的所有元素 都要求时相同的类型。但是JavaScript允许数组包含混合类型的值。
+ 
+ */
+ 
+ var misc = ['string', 98.6, true, false, null, undefined, ['nested', 'array'], {obj : true}, NaN, Infinity];
+ document.writeln(misc.length);
+ 
+ /**  
+
+    长度
+    
+    每个数组都有一个length属性。和大多数其他语言不同，JavaScript数组的length属性是没有上界的。
+    如果你用大于或等于当前length的数字作为下标存储一个元素，那么length值会被增大以容纳新元素，不会发生数组越界错误。
+    
+    length属性的值是这个数组的最大整数属性名加1.它不一定等于数组里的属性的个数。
+
+ */
+ 
+ var myArray = [];
+ document.writeln(myArray.length);
+ myArray[1001] = true;
+ document.writeln(myArray.length);
+ 
+ 
