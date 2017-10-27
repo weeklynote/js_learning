@@ -1166,6 +1166,81 @@ document.writeln(unique);
  ];
  document.writeln(matrix[2][1]);
  
+ /**
  
+    正则表达式
+    
+    JavaScript有很多特性都是借鉴其他语言。语法借鉴自Java，函数借鉴自Schema，原型继承借鉴自Self。而正则表达式则借鉴自Perl。
+    
+    正则表达式是一门简单语言的语法规范。它应用在一些方法中，对字符串中的信息进行查找、替换和提取操作。可处理正则表达式的方法有regexp.exec、regexp.test、string.match、string.replace、string.search和string.split。
+    
+    通常来说，JavaScript中的正则表达式相较于等效的字符串处理有着明显的性能优势。
+    
+    正则表达式起源于对形式语言的数学研究。
+    
+    在JavaScript中，正则表达式的语法是对Perl版本的改进和发展，它非常接近于贝尔实验室最初提出的构想。
+    
+    正则表达式的书写规则出奇的复杂，不仅难以阅读，而且修改时充满危险。
+    
+    在JavaScript中，正则表达式必须写在一行中。
  
+ */
  
+ var parse_url = /^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/;
+var url = "http://www.ora.com:80/goodparts?q#fragment";
+var result = parse_url.exec(url);
+var names = ['url', 'schema', "slash", 'host', 'port', 'path', 'query', 'hash'];
+for(i = 0; i < names.length; i++){
+    document.writeln(names[i] + ':' + result[i]); 
+}
+/**
+
+    以下的内容忽略正则表达式的内容，因为其语法比较复杂，不容易记忆，使用时进行查阅即可
+
+*/
+
+/**
+
+    方法
+
+    Array的concat(item...)产生一个新的数组，它包含一份Array的浅复制并把一个或多个参数item附加在其后。如果参数item是一个数组，那么它的每个元素会被分别添加。
+    
+    它的功能类似Array的push(item...)方法。
+*/
+var a = ['a', 'b', 'c'];
+var b = ['x', 'y', 'z'];
+var c = a.concat(b, true);
+document.writeln(c);
+/**
+
+    Array的join方法把Array构造成一个字符串。它先把Array中的每个元素构成一个字符串，接着用一个separator分隔符把他们连接在一起。
+    
+    默认的separator是逗号','。要想做到无间隔的连接，可以使用空字符串作为separator。
+    
+    如果你想把大量的字符串片段组装成一个字符串，把这些片段放到一个数组中并用join方法连接起来通常比用+元素运算符连接这些片段要快。
+
+*/
+var d = ['a', 'b', 'c'];
+d.push('d');
+var e = d.join('');
+document.writeln(e);
+/**
+
+    Array的pop方法使得数组可以像堆栈一样工作。pop方法移除Array中的最后一个元素并返回该元素。如果数组是empty，它会返回undefined。
+
+*/
+ var f = ['a', 'b', 'c', 'aaaaaaaaddddddd'];
+ document.writeln(f.pop());
+ /**
+ 
+    POP可以像这样实现：
+    Array.method('pop', function (){
+       return this.splice(this.length - 1, 1)[0]; 
+    });
+ 
+ */
+ /**
+ 
+    Array的push(item...)把一个或多个参数item加到一个数组的尾部。和concat方法不同的是，它会修改Array，如果参数item是一个数组，它会把参数数组作为单个元素整个添加到数组中，并返回这个数组的新长度值。
+ 
+ */
