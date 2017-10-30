@@ -151,3 +151,14 @@ var removed = parent.removeChild(self);
 // 遍历一个父节点的子节点并进行删除操作时，要注意，children属性是一个只读属性，并且它在子节点变化时会实时更新。
 
 // 操作表单
+var input = document.getElementById("email");
+// 用户输入的值
+console.log(input.value);
+input.value = '12345@example.com';
+var mon = document.getElementById('monday');
+var tue = document.getElementById('tuesday');
+console.log(mon.value); // '1'
+console.log(tue.value); // '2'
+console.log(mon.checked); // true或者false
+console.log(tue.checked); // true或者false
+// 提交表单

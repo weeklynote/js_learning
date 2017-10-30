@@ -1242,5 +1242,156 @@ document.writeln(e);
  /**
  
     Array的push(item...)把一个或多个参数item加到一个数组的尾部。和concat方法不同的是，它会修改Array，如果参数item是一个数组，它会把参数数组作为单个元素整个添加到数组中，并返回这个数组的新长度值。
+    
+    push可以这样实现
+    Array.method("push", function (){
+       this.splice.apply(
+       this,
+       [this.length, 0].concat(Array.prototype.slice.apply(arguments)));
+       return this.length;
+    });
  
  */
+ var g = ['f', "g", "j"];
+ var h = ["e", "r", "t"];
+ var i = g.push(h, true);
+ document.writeln(i);
+ 
+ /**
+ 
+    Array的reverse方法
+    
+    反转数组里的元素的顺序，并返回数组本身。
+ 
+ */
+ var j = ["a", "b", "c"];
+ document.writeln(j.reverse());
+ 
+ /**
+ 
+    Array的shift方法
+    
+    移除数组中的第1个元素并返回该值。如果这个数组是空的，它会返回undefined。shift通常比pop慢得多。
+    
+    shift可以这样实现：
+    Array.method("shift", function(){
+       return this.splice(0, 1)[0]; 
+    });
+ 
+ */
+ var k = ["a", "b", "c"];
+ document.writeln(k.shift());
+ document.writeln(k);
+ 
+ /**
+ 
+    Array的slice(start, end)方法
+    
+    对数组中的一段做浅复制。首先复制array[start]，一直复制到array[end]为止。end参数是可选的，默认值是该数组的长度。
+    如果两个参数中的任何一个是负数，数组的length会和它们相加，试图让他们成为非负数。如果start大于等于array.length，得到的结果将是
+    一个空的数组。
+ 
+ */
+ var l = ['m', "N", "o"];
+document.writeln(l.slice(0));
+document.writeln(l.slice(1, 2));
+
+/**
+
+    Array的sort(comparefn)
+    
+    sort方法对数组中的内容进行排序。它不能正确地给一组数字排序。
+    
+
+*/
+var m = [4, 8, 10, 12, 23, 45, 15, 16];
+document.writeln(m.sort());
+/**
+
+    JavaScript的默认比较函数把要被排序的元素都视为字符串。尚没达到比较这些元素之前智能检测这些元素的类型。所以在比较数字的时候，会把它转化为字符串，
+    这样会导致一个比较离谱的答案。
+    
+    不过我们可以提供自己的比较函数。比较函数接收两个参数，并且两个参数相等则返回0；如果第一个参数应该排列在前面就返回负数；如果第二个参数应该
+    排在前面则返回正数。
+
+*/
+document.writeln(m.sort(function (a, b){
+    return a - b;
+}));
+/**
+
+    如何给任何包含简单值得数组进行排序？
+
+*/
+var n = ["aa", "bb", "a", 4, 8, 15, 16, 23, 42];
+n.sort(function (a, b){
+   if(a === b)
+      return 0;
+  if(typeof a === typeof b){
+      return a < b ? -1 : 1;
+  }
+  return typeof a < typeof b ? -1 : 1;
+});
+document.writeln(n);
+
+/** 比较对象  */
+var by = function (name){
+    return function (o, p){
+        var a, b;
+        if(typeof o === 'object' && typeof p === 'object' && o && p){
+            a = o[name];
+            b = p[name];
+            if(a === b){
+                return 0;
+            }
+            if(typeof a === typeof b){
+                return a < b ? -1 : 1;
+            }
+            return typeof a < typeof b ? -1 : 1;
+        }else{
+            throw {
+                name : "Error",
+                message : "Expect an object when sorting by " + name
+            };
+        }
+    }
+};
+var o = [
+    {name : "Joe", last : "Besser"},
+    {name : "Moe", last : "Howard"},
+    {name : "Joe", last : "Derita"},
+    {name : "Shemp", last : "Howard"},
+    {name : "Larry", last : "Fine"},
+    {name : "Curly", last : "Howard"}
+        ]
+o.sort(by("name")).sort(by("last"));
+for(i = 0; i < o.length; i++){
+    document.writeln("{ name : " + o[i].name + ", last : " + o[i].last + "}");
+}
+
+var by2 = function (name, minor){
+    return function (o, p){
+        var a, b;
+        if(o && p && typeof o === 'object' && typeof p === "object"){
+            a = o[name];
+            b = p[name];
+            if(a === b){
+                return typeof minor === 'function' ? minor(o, p) : 0;
+            }
+            if(typeof a === typeof b){
+                return a < b ? -1 : 1;
+            }
+            return typeof a < typeof b ? -1 : 1;
+        }else {
+            throw {
+                name : "Error",
+                message : "Expect an object when sorting by " + name
+            };
+        }
+    }
+};
+document.writeln("#########################################################");
+o.sort(by2("last", by2("first")));
+for(i = 0; i < o.length; i++){
+    document.writeln("{ name : " + o[i].name + ", last : " + o[i].last + "}");
+}

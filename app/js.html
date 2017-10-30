@@ -37,6 +37,54 @@
     <p>Second</p>
     <p id="to_be_removed">Three</p>
 </div>
+<input type="text" id="email">
+<input type="radio" name="weekday" id="monday" value="1"> Monday</label>
+<input type="radio" name="weekday" id="tuesday" value="2"> Tuesday</label>
+<input type="date" value="2015-07-01">
+<input type="datetime-local" value="2015-07-01T02:03:04">
+<input type="color" value="#ff0000">
+<form id="test-form">
+    <input type="text" name="test">
+    <button type="button" onclick="doSubmitForm()">Submit</button>
+</form>
+    <script >
+    function doSubmitForm(){
+        var form = document.getElementById("test-form");
+        alert("doSubmitForm  check..");
+        return form.submit();
+    
+    }
+    
+    </script>
+    <form id="test-form" onsubmit="return checkForm()">
+    <input type="text" name="test">
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+function checkForm() {
+    var form = document.getElementById('test-form');
+    // 可以在此修改form的input...
+    // 继续下一步:
+    alert("checkForm...");
+    return true;
+}
+</script>
+<form id="login-form" method="post" onsubmit="return checkForm()">
+    <input type="text" id="username" name="username">
+    <input type="password" id="password" name="password">
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+function checkForm() {
+    var pwd = document.getElementById('password');
+    // 把用户输入的明文变为MD5:
+    pwd.value = toMD5(pwd.value);
+    // 继续下一步:
+    return false;
+}
+</script>
     <!-- 通常把js代码放到<head>中-->
     <script src="explore.js"></script>
 </head>
