@@ -1395,3 +1395,122 @@ o.sort(by2("last", by2("first")));
 for(i = 0; i < o.length; i++){
     document.writeln("{ name : " + o[i].name + ", last : " + o[i].last + "}");
 }
+/**
+    
+    Array的splice(start, deleteCount, item...)方法
+    
+    从Array中移除一个或多个元素，并用新的item替代它们。
+    
+    参数start是从数组Array中移除元素的开始位置。
+    deleteCount是要移除的元素个数；如果有额外的参数，那些item会插入到被移除元素的位置上。
+    它返回一个包含被移除元素的数组。
+    
+    不要把splice方法和slice弄混。
+    Array.method("splice", function (start, deleteCount){
+        var max = Math.max,
+            min = Math.min,
+            delta,
+            element,
+            insertCount = max{arguments.length - 2, 0},
+            k = 0,
+            len = this.length,
+            new_len,
+            result = [],
+            shift_count;
+            
+            start = start || 0;
+            if(start < 0){
+                start += len;
+            }
+            start = max(min(start, len), 0);
+            deleteCount = max(min(typeof deleteCount === 'number' ? deleteCount : len, len - start), 0);
+            delta = insertCount - deleteCount;
+            new_len = len + delta;
+            while(k < deleteCount){
+                element = this[start + k];
+                if(element !== undefined){
+                    result[k] = element;
+                }
+                k += 1;
+            }
+            shift_count = len - start - deleteCount;
+            if(delta < 0){
+                k = start + insertCount;
+                while(shift_count){
+                    this[k] = this[k - delta];
+                    k += 1;
+                    shift_count -= 1;
+                }
+                this.length = new_len;
+            }else if(delta > 0){
+                k = 1;
+                while(shift_count){
+                    this[new_len - k] = this[len - k];
+                    k += 1;
+                    shift_count -= 1;
+                }
+                this.length = new_len;
+            }
+            for(k = 0; k < insertCount; k += 1){
+                this[start + k] = arguments[k + 2];
+            }
+            return result;
+    });
+    
+*/
+var p = ["a", "b", "c"];
+var q = p.splice(1, 1, "ache", "bug");
+document.writeln(q);
+document.writeln(p);
+/**
+    
+    Array的unshift(item...)
+    
+    与push方法一样，用于把元素添加到数组中，但它是把item插入到Array的开始部分而不是尾部。
+    它返回Array的新的length：
+    
+    Array.method("unshift", function (){
+        this.splice.apply(this, [0, 0].concat(Array.prototype.slice.apply(arguments)));
+        return this.length;
+    });
+    
+*/
+var r = ["a", "b", "c"];
+var s = r.unshift("?", "@");
+document.writeln(s);
+document.writeln(r);
+
+/**
+
+    Function的apply(thisArg, argArray)
+    
+    apply方法调用function，传递一个会被绑定到this上的对象和一个可选数组作为参数。
+    
+    apply方法被调用在apply调用模式中：
+
+*/
+Function.method("bind", function (that){
+    var method = this,
+    slice = Array.prototype.slice,
+    args = slice.apply(arguments, [1]);
+    document.writeln("bind args:" + args);
+    return function (){
+        return method.apply(that, args.concat(slice.apply(arguments, [0])));
+    };
+});
+var x = function (){
+    return this.value;
+}.bind({value : 666});
+document.writeln(x());
+/**
+    
+    Number的toExponential(fractionDigits)
+    
+    把这个数字转换成一个指数形式的字符串。可选参数fractionDigits控制骑小数点后的数字位数。它的值必须是0-20。
+    
+*/
+document.writeln(Math.PI.toExponential(0));
+document.writeln(Math.PI.toExponential(2));
+document.writeln(Math.PI.toExponential(7));
+document.writeln(Math.PI.toExponential(16));
+document.writeln(Math.PI.toExponential());
