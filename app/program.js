@@ -1514,3 +1514,151 @@ document.writeln(Math.PI.toExponential(2));
 document.writeln(Math.PI.toExponential(7));
 document.writeln(Math.PI.toExponential(16));
 document.writeln(Math.PI.toExponential());
+/**
+
+    Number的toFixed(fractionDigits)
+    
+    把Number转换为一个十进制形式的字符串。可选参数fractionDigits控制其小数点后的数字位数。它的值必须是0-20。
+
+*/
+document.writeln("#############################################################");
+document.writeln(Math.PI.toFixed(0));
+document.writeln(Math.PI.toFixed(2));
+document.writeln(Math.PI.toFixed(7));
+document.writeln(Math.PI.toFixed(16));
+document.writeln(Math.PI.toFixed());
+/**
+
+    Number的toPrecision(precision)
+    
+    把Number转换为十进制形式的字符串。可选参数precision控制数字的精度。它的值必须是1-21。
+
+*/
+document.writeln("#############################################################");
+document.writeln(Math.PI.toPrecision(1));
+document.writeln(Math.PI.toPrecision(2));
+document.writeln(Math.PI.toPrecision(7));
+document.writeln(Math.PI.toPrecision(16));
+document.writeln(Math.PI.toPrecision());
+document.writeln("#############################################################");
+/**
+
+    Number的toString(radix)
+    
+    把Number转换为一个字符串。可选参数radix控制基数。它的值必须在2-36，默认的radix是以10为基数的，radix参数最常用的是整数。
+    Number.toString()可以简单地写为String(Number)
+
+*/
+document.writeln(Math.PI.toString(2));
+document.writeln(Math.PI.toString(8));
+document.writeln(Math.PI.toString(16));
+document.writeln(Math.PI.toString());
+document.writeln("#############################################################");
+/**
+
+    Object的hasOwnProperty(name)
+    
+    如果Object包含一个名为name的属性，那么hasOwnProperty方法返回true。原型链中的同名属性是不会被检查的。
+    
+*/
+var t = {member : true};
+var ss = Object.create(t);
+document.writeln(t.hasOwnProperty("member"));
+document.writeln(ss.hasOwnProperty("member"));
+document.writeln(t.hasOwnProperty("member"));
+document.writeln("#############################################################");
+/**
+
+    RegExp的exec(String)
+    
+    RegExp的test(String)
+    
+    略
+
+*/
+/**
+
+    String的charAt(pos)
+    
+    返回在String中pos位置处的字符。如果pos小于0或大于等于字符串的长度String.length，它会返回空字符串。
+    JavaScript没有字符串类型，这个方法返回的结果是一个字符串：
+    
+    charAt可以像这样实现：
+    String.method("charAt", function (pos){
+        return this.slice(pos, pos + 1);
+    });
+
+*/
+var nn = "Curly";
+document.writeln(nn.charAt(0));
+/**
+
+    String的charCodeAt(pos)
+    
+    charCodeAt方法同charAt一样，只不过它返回的不是一个字符串，而是以整数形式表示在String中的pos位置处的字符的字符码位。
+    如果pos小于0或大于等于字符串的长度String.length，它返回NaN。
+
+*/
+document.writeln(nn.charCodeAt(0));
+/**
+
+    String的concat(String...)
+    
+    把其他的字符串连接在一起来构造一个新的字符串。它很少被使用，因为+运算符更为方便：
+
+*/
+document.writeln("C".concat("a", "t"));
+/**
+
+    String的indexOf(searchString, postion)
+    
+    在String内查找另一个字符串searchString。如果它被找到，返回第一个匹配字符的位置，否者返回-1.可选参数position可设置从String的某个指定位置
+    开始查找。
+
+*/
+var text = "Mississippi";
+document.writeln(text.indexOf("ss"));
+document.writeln(text.indexOf("ss", 3));
+document.writeln(text.indexOf("ss", 6));
+/**
+
+    String的lastIndexOf(searchString, postion)
+    
+    lastIndexOf方法和indexOf方法类似，只不过它是从该字符串的末尾开始查找而不是从头开始查找：
+
+*/
+document.writeln(text.lastIndexOf("ss"));
+document.writeln(text.lastIndexOf("ss", 3));
+document.writeln(text.lastIndexOf("ss", 6));
+document.writeln("#############################################################");
+/**
+
+    String的localeCompare(that)
+    
+    localeCompare方法比较两个字符串。
+    如果String比字符串that小，那么结果为负数；
+    如果它们是相等的，那么结果为0；
+    这比较类似于Array.sort()比较函数的约定：
+
+*/
+var mm = ["AAA", "A", "aa", "a", "Aa", "aaa"];
+mm.sort(function (a, b){
+    return a.localeCompare(b);
+});
+document.writeln(mm);
+/**
+
+    String的match(regexp)
+    
+    让字符串和一个正则表达式进行匹配。它依据g标识来决定如何进行匹配。如果没有g标识，那么调用String.match(regexp)的结果与
+    调用regexp.exec(String)的结果相同。然而，如果regexp带有g标识，那么它生成一个包含所有匹配的数组：
+
+*/
+var textt = '<html><body bgcolor=linen><p>' + 
+'This is <b>bold<\/b>!<\/p><\/body><\/html>';
+var tag = /[^<>]+|<(\/?)([A-Za-z]+)([^<>]*)>/g;
+var aa, ii;
+aa = textt.match(tag);
+for(ii = 0; ii < aa.length; ii += 1){
+    //document.writeln(('// [' + ii + '] ' + aa[ii]).entityify());
+}
